@@ -1,0 +1,10 @@
+<%= content_for :sidebar do %>
+
+  <%- puzzles.each do |puzzle| -%>
+    <div class="card">
+      <%= content_tag :strong, puzzle.sent_by %>
+      <%= format_board puzzle.board %>
+    </div>
+  <% end %>
+
+<% end %>
