@@ -1,0 +1,14 @@
+<table class="table sudoku-board mt-4">
+  <tbody>
+    <% i = 0 %>
+    <% board.each do |row| %>
+      <tr>
+        <% row.each do |cell| %>
+          <% css = cell.zero? ? '' : 'initial' %>
+          <%= content_tag :td, cell, id: "cell-#{i}", class: css %>
+          <% i += 1 %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

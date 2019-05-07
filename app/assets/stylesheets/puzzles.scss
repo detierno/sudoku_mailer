@@ -1,3 +1,42 @@
-// Place all the styles related to the Puzzles controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.puzzles-list{
+  table {
+    &:hover {
+      background: #fffea3;
+    }
+
+    td {
+      padding: 0;
+      line-height: 1.2;
+    }
+  }
+  a {
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+}
+
+.sudoku-board {
+  border: solid 2px black;
+
+  .initial {
+    font-weight: bold;
+    color: red;
+  }
+
+  td {
+    text-align: center;
+
+    border: solid 1px #ccc;
+
+    &:nth-child(3n+1) {
+      border-left: solid 2px black;
+    }
+  }
+
+  tr {
+    &:nth-child(3n+1) {
+      border-top: solid 2px black;
+    }
+  }
+}

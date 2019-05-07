@@ -1,25 +1,22 @@
 class PuzzlesController < ApplicationController
+  before_action :load_puzzles, only: [:index, :show]
   before_action :set_puzzle, only: [:show, :edit, :update, :destroy]
 
-  # GET /puzzles
   def index
     @puzzles = Puzzle.all
   end
 
-  # GET /puzzles/1
   def show
+    SudokuSolverJob.set(wait: 1.second).perform_later(@puzzles.first.id)
   end
 
-  # GET /puzzles/new
   def new
     @puzzle = Puzzle.new
   end
 
-  # GET /puzzles/1/edit
   def edit
   end
 
-  # POST /puzzles
   def create
     @puzzle = Puzzle.new(puzzle_params)
 
@@ -30,7 +27,6 @@ class PuzzlesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /puzzles/1
   def update
     if @puzzle.update(puzzle_params)
       redirect_to @puzzle, notice: 'Puzzle was successfully updated.'
@@ -39,19 +35,20 @@ class PuzzlesController < ApplicationController
     end
   end
 
-  # DELETE /puzzles/1
   def destroy
     @puzzle.destroy
     redirect_to puzzles_url, notice: 'Puzzle was successfully destroyed.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    def load_puzzles
+      @puzzles = Puzzle.all
+    end
+
     def set_puzzle
       @puzzle = Puzzle.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def puzzle_params
       params.require(:puzzle).permit(:sent_by, :board)
     end

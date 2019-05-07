@@ -9,6 +9,13 @@ class Puzzle < ApplicationRecord
     #super(arr)
   #end
 
+  def formatted_board
+    board_dup = board.dup
+    board_arrs = []
+    9.times { board_arrs << board_dup.slice!(0, 9) }
+    board_arrs
+  end
+
   private
 
   def board_correct_format
