@@ -5,17 +5,17 @@ class PuzzlesControllerTest < ActionDispatch::IntegrationTest
     @puzzle = puzzles(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get puzzles_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'should get new' do
     get new_puzzle_url
     assert_response :success
   end
 
-  test "should create puzzle" do
+  test 'should create puzzle' do
     assert_difference('Puzzle.count') do
       post puzzles_url, params: { puzzle: { board: @puzzle.board, sent_by: @puzzle.sent_by } }
     end
@@ -23,22 +23,22 @@ class PuzzlesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to puzzle_url(Puzzle.last)
   end
 
-  test "should show puzzle" do
+  test 'should show puzzle' do
     get puzzle_url(@puzzle)
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get edit_puzzle_url(@puzzle)
     assert_response :success
   end
 
-  test "should update puzzle" do
+  test 'should update puzzle' do
     patch puzzle_url(@puzzle), params: { puzzle: { board: @puzzle.board, sent_by: @puzzle.sent_by } }
     assert_redirected_to puzzle_url(@puzzle)
   end
 
-  test "should destroy puzzle" do
+  test 'should destroy puzzle' do
     assert_difference('Puzzle.count', -1) do
       delete puzzle_url(@puzzle)
     end

@@ -1,0 +1,13 @@
+- type: parallel
+  steps:
+  - name: test
+    service: sudoku-mailer
+    command: bin/ci rake
+- name: deploy
+  tag: master
+  service: codeship-heroku-deployment
+  command: codeship_heroku deploy /deploy codeshi
+- name: migrate
+  tag: master
+  service: codeship-heroku-deployment
+  command: heroku run --app codeshi -- bundle exec rake db:migrate

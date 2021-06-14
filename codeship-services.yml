@@ -1,0 +1,21 @@
+sudoku-mailer:
+  build: ./
+  depends_on:
+    - postgres
+  environment:
+    DATABASE_HOST: sudoku_db
+    DATABASE_USERNAME: postgres
+    DATABASE_PASSWORD: password
+    DATABASE_NAME: sudoku_db
+    DATABASE_PORT: 5432
+  cached: true
+postgres:
+  image: healthcheck/postgres:alpine
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_DB: sudoku_db
+codeship-heroku-deployment:
+  image: codeship/heroku-deployment
+  encrypted_env_file: deployment.env.encrypted
+  volumes:
+    - ./:/deploy
