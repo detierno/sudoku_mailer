@@ -10,10 +10,12 @@ sudoku-mailer:
     DATABASE_PORT: 5432
   cached: true
 postgres:
-  image: healthcheck/postgres:alpine
+  image: postgres:12.5
   environment:
     POSTGRES_USER: postgres
     POSTGRES_DB: sudoku_db
+    POSTGRES_USERNAME: postgres
+    POSTGRES_PASSWORD: password
 codeship-heroku-deployment:
   image: codeship/heroku-deployment
   encrypted_env_file: deployment.env.encrypted

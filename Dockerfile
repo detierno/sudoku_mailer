@@ -1,4 +1,4 @@
-FROM ruby:3.0-alpine
+FROM ruby:3.0.1
 
 ENV APP_PATH /var/app
 ENV BUNDLE_VERSION 2.1.4
@@ -12,11 +12,31 @@ COPY ./dev-docker-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
 COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
 RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh
 
+# RUN chmod 777 /usr/local/bin/dev-entrypoint.sh && ln -s /usr/local/bin/dev-entrypoint.sh /
+
+# RUN apk update
+# 
+# # install dependencies for application
+# RUN apk -U add --no-cache \
+# build-base \
+# git \
+# postgresql-dev \
+# postgresql-client \
+# libxml2-dev \
+# libxslt-dev \
+# nodejs \
+# yarn \
+# imagemagick \
+# tzdata \
+# less \
+# && rm -rf /var/cache/apk/* \
+# && mkdir -p $APP_PATH 
+
+RUN apt-get update -qq
+
 # install dependencies for application
-RUN apk -U add --no-cache \
-build-base \
+RUN apt-get install -y \
 git \
-postgresql-dev \
 postgresql-client \
 libxml2-dev \
 libxslt-dev \
@@ -28,7 +48,6 @@ less \
 && rm -rf /var/cache/apk/* \
 && mkdir -p $APP_PATH 
 
-
 RUN gem install bundler --version "$BUNDLE_VERSION" \
 && rm -rf $GEM_HOME/cache/*
 
@@ -36,5 +55,7 @@ RUN gem install bundler --version "$BUNDLE_VERSION" \
 WORKDIR $APP_PATH
 
 EXPOSE $RAILS_PORT
+
+# ENTRYPOINT ["bash","entrypoint.prod.sh"]
 
 ENTRYPOINT [ "bundle", "exec" ]

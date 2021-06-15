@@ -8,7 +8,7 @@ volumes:
   shared_data:
 services:
   sudoku_redis:
-    image: redis:4.0-alpine
+    image: redis:4.0
     command: redis-server
     networks:
       - development
@@ -16,7 +16,7 @@ services:
     volumes:
       - shared_data:/var/shared/redis
   sudoku_db:
-    image: postgres:12.5-alpine
+    image: postgres:12.5
     container_name: sudoku_db
     volumes:
       - db_data:/var/lib/postgresql/data
