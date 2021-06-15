@@ -2,7 +2,7 @@ FROM ruby:3.0.1
 
 ENV APP_PATH /var/app
 ENV BUNDLE_VERSION 2.1.4
-ENV BUNDLE_PATH /usr/local/bundle/gems
+# ENV BUNDLE_PATH /usr/local/bundle/gems
 ENV TMP_PATH /tmp/
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_PORT 3000
@@ -48,8 +48,10 @@ less \
 && rm -rf /var/cache/apk/* \
 && mkdir -p $APP_PATH 
 
-RUN gem install bundler --version "$BUNDLE_VERSION" \
-&& rm -rf $GEM_HOME/cache/*
+# RUN gem install bundler --version "$BUNDLE_VERSION" \
+# && rm -rf $GEM_HOME/cache/*
+
+RUN gem install bundler --version "$BUNDLE_VERSION"
 
 # navigate to app directory
 WORKDIR $APP_PATH
