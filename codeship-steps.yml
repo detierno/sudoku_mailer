@@ -2,7 +2,7 @@
   steps:
   - name: test
     service: sudoku-mailer
-    command: bin/ci rake
+    command: bundle exec rake
 - name: deploy
   tag: master
   service: codeship-heroku-deployment
