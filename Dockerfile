@@ -1,6 +1,6 @@
 FROM ruby:3.0.1
 
-ENV APP_PATH /var/app
+ENV APP_PATH /app
 ENV BUNDLE_VERSION 2.1.4
 # ENV BUNDLE_PATH /usr/local/bundle/gems
 ENV TMP_PATH /tmp/
@@ -12,7 +12,7 @@ COPY ./dev-docker-entrypoint.sh /usr/local/bin/dev-entrypoint.sh
 COPY ./test-docker-entrypoint.sh /usr/local/bin/test-entrypoint.sh
 RUN chmod +x /usr/local/bin/dev-entrypoint.sh && chmod +x /usr/local/bin/test-entrypoint.sh
 
-# RUN chmod 777 /usr/local/bin/dev-entrypoint.sh && ln -s /usr/local/bin/dev-entrypoint.sh /
+RUN chmod 777 /usr/local/bin/dev-entrypoint.sh && ln -s /usr/local/bin/dev-entrypoint.sh /
 
 # RUN apk update
 # 
@@ -57,6 +57,11 @@ RUN gem install bundler --version "$BUNDLE_VERSION"
 WORKDIR $APP_PATH
 
 EXPOSE $RAILS_PORT
+
+COPY Gemfile ./Gemfile
+COPY Gemfile.lock ./Gemfile.lock
+
+RUN bundle install -j 20
 
 # ENTRYPOINT ["bash","entrypoint.prod.sh"]
 
