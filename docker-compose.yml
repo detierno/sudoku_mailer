@@ -8,32 +8,30 @@ services:
     command: redis-server
     volumes:
       - shared_data:/var/shared/redis
-  sudoku_db:
+  postgres:
     image: postgres:12.5
-    container_name: sudoku_db
+    container_name: postgres
     volumes:
       - db_data:/var/lib/postgresql/data
       - shared_data:/var/shared
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-    ports:
-      - 5099:5432
   sudoku_app:
     build: .
     container_name: sudoku_app
     volumes:
-      - .:/var/app
+      - .:/app
     ports:
       - 3000:3000
-    stdin_open: true
+    # stdin_open: true
     tty: true
     env_file: .env.development
     entrypoint: dev-entrypoint.sh
     command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
     # command: bash -c "bundle install && yarn install --check-files && bundle exec rails s -p 3000 -b '0.0.0.0'"
     depends_on:
-      - sudoku_db
+      - postgres
   # sudoku_test:
   #   image: sudoku_app
   #   container_name: sudoku_test
