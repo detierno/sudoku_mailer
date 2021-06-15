@@ -1,18 +1,11 @@
 version: '3'
-networks:
-  development:
-  test:
 volumes:
   db_data:
-  gem_cache:
   shared_data:
 services:
   sudoku_redis:
     image: redis:4.0
     command: redis-server
-    networks:
-      - development
-      - test
     volumes:
       - shared_data:/var/shared/redis
   sudoku_db:
@@ -21,25 +14,16 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - shared_data:/var/shared
-    networks:
-      - development
-      - test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
       - 5099:5432
   sudoku_app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: sudoku_app
     volumes:
       - .:/var/app
-      - shared_data:/var/shared
-      - gem_cache:/usr/local/bundle/gems
-    networks:
-      - development
     ports:
       - 3000:3000
     stdin_open: true
@@ -48,8 +32,6 @@ services:
     entrypoint: dev-entrypoint.sh
     command: ['rails', 'server', '-p', '3000', '-b', '0.0.0.0']
     # command: bash -c "bundle install && yarn install --check-files && bundle exec rails s -p 3000 -b '0.0.0.0'"
-    environment:
-      RAILS_ENV: development
     depends_on:
       - sudoku_db
   # sudoku_test:
