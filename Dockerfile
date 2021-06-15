@@ -61,3 +61,5 @@ EXPOSE $RAILS_PORT
 # ENTRYPOINT ["bash","entrypoint.prod.sh"]
 
 ENTRYPOINT [ "bundle", "exec" ]
+
+COPY . .
